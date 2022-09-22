@@ -13,7 +13,7 @@ serve(async request => {
   try {
     const data = await connection.queryObject`SELECT * FROM temperature`;
     console.log(data);
-    return new Response("Success: " + data, {
+    return new Response("Success: " + JSON.stringify(data.rows), {
       headers: { "content-type": "text/plain" },
     });
   }
