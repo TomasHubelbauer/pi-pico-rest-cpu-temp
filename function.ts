@@ -26,8 +26,8 @@ serve(async request => {
     
     const query = 'INSERT INTO temperature(temperature, recorded_at) VALUES ($TEMPERATURE, $STAMP)';
     const stamp = new Date();
-    console.log({ query, $1: temperature, $2: stamp });
-    const data = await connection.queryObject(query, { temperature, stamp });
+    console.log({ query, temperature, stamp });
+    const data = await connection.queryObject({ text: query, args: { temperature, stamp } });
     console.log(data);
     
     return new Response("Success: " + data.rowCount + " rows", {
