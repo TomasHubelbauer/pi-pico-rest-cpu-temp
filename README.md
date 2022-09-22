@@ -3,7 +3,7 @@
 In this repository, I develop a MicroPython program implementing a Pi Pico CPU
 temperature probe that regularly sends the collected readings to a REST service.
 
-![](raspberry-pi-pico-w.jpg)
+![](pi-pico-w.png)
 
 The plan is to:
 
