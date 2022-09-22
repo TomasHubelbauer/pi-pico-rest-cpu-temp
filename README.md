@@ -201,6 +201,22 @@ We'll want it to talk to Postgres so we need to bring that in as a module. Lucky
 for us that's something that the Deno docs cover:
 https://deno.com/deploy/docs/tutorial-postgres
 
+For this script, we will need to know the connection string to use to connect to
+the database. We could use a user name and a password, but the connection string
+is a more compact way to containing the connection instructions. You can find it
+on Supabase, in the project settings, Database tab under the section Connection
+String. It's best to switch to the URI tab there.
+
+- [ ] Upload the connection string image here
+
+Substitute the database password there and store that final connection string in
+Deno environment variables, something like this:
+
+- [ ] Upload the environment variables image here
+
+With this done, the code can access the connection string and we can connect to
+Postgres and use the database data as a part of the request-response flow.
+
 - [ ] Extend the code to connect to Postgres using an environment variable
 - [ ] Parse out a temperature value from the payload and save it to the DB
 
