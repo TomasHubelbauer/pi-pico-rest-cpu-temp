@@ -11,8 +11,13 @@ const pool = new postgres.Pool(connectionString, 1, true);
 serve(async request => {
   const connection = await pool.connect();
   try {
+    // Parse out the temperature value and the secret to authorize the caller
+    const { secret, temperature } = await request.json();
+    console.log({ secret, temperature });
+    
     const data = await connection.queryObject`SELECT COUNT(*) FROM temperature`;
     console.log(data);
+    
     return new Response("Success: " + data.rowCount + " rows", {
       headers: { "content-type": "text/plain" },
     });
