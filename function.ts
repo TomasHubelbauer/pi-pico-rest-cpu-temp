@@ -23,11 +23,8 @@ serve(async request => {
     if (isNaN(Number(temperature))) {
       throw new Error('Invalid temperature!');
     }
-    
-    const query = 'INSERT INTO temperature(temperature, recorded_at) VALUES ($TEMPERATURE, $STAMP)';
-    const stamp = new Date();
-    console.log({ query, temperature, stamp });
-    const data = await connection.queryObject({ text: query, args: { temperature, stamp } });
+
+    const data = await connection.queryObject`INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, ${new Date()})`;
     console.log(data);
     
     return new Response("Success: " + data.rowCount + " rows", {
