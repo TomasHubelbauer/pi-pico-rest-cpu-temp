@@ -16,13 +16,11 @@ serve(async request => {
   try {
     // Parse out the temperature value and the secret to authorize the caller
     const { secret, temperature } = await request.json();
-    console.log({ secret, temperature });
     if (secret !== SECRET) {
       throw new Error('Invalid secret!');
     }
     
-    console.log(`TODO: INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, '${new Date().toISOString()}')`);
-    const data = await connection.queryObject`SELECT COUNT(*) FROM temperature`;
+    const data = await connection.queryObject`INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, '${new Date().toISOString()}')`;
     console.log(data);
     
     return new Response("Success: " + data.rowCount + " rows", {
