@@ -266,8 +266,62 @@ curl -H "Content-Type: application/json" -d '{"temperature":0}' https://pi-pico-
 
 ## Persisting the values
 
-- [ ] Parse out a temperature value from the payload and save it to the DB
-- [ ] Use `Client` instead of `Pool` if it also accepts a connection string
+The final code looks like this:
+
+```typescript
+import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
+import * as postgres from "https://deno.land/x/postgres@v0.14.0/mod.ts";
+
+const CONNECTION_STRING = Deno.env.get("CONNECTION_STRING")!;
+const SECRET = Deno.env.get("SECRET")!;
+
+serve(async request => {
+  const client = new postgres.Client(CONNECTION_STRING);
+  
+  try {
+    await client.connect();
+    
+    const { secret, temperature } = await request.json();
+    
+    if (secret !== SECRET) {
+      throw new Error('Invalid secret!');
+    }
+    
+    if (isNaN(Number(temperature))) {
+      throw new Error('Invalid temperature!');
+    }
+
+    const data = await client.queryObject`INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, ${new Date()})`;
+    console.log(data);
+    
+    return new Response("Success: " + data.rowCount, {
+      headers: { "content-type": "text/plain" },
+    });
+  }
+  catch (error) {
+    return new Response("Error: " + error.message, {
+      headers: { "content-type": "text/plain" },
+    });
+  }
+  finally {
+    await client.end();
+  }
+});
+```
+
+We receive the call, we parse the body as a JSON, we check for a secret to
+authorize the caller (the secret is another Deno environment variable) and we
+call the Supabase Postgres instance with an `INSERT` query providing the data
+as arguments to a template string function which does SQL injection prevention
+and type marshalling.
+
+I've also switched to the `Client` API, this endpoint won't ever be legitimately
+called in parallel so it is more than sufficient.
+
+Supabase is getting filled with data okay so this is good to go!
+
+- [ ] Check whether the `Content-Type` bit can be removed
+- [ ] Add an image of the Supabase database showing the new data
 
 ## Recap & To-Do
 
