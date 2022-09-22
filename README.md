@@ -217,7 +217,7 @@ Deno environment variables, something like this:
 With this done, the code can access the connection string and we can connect to
 Postgres and use the database data as a part of the request-response flow.
 
-```
+```typescript
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
 import * as postgres from "https://deno.land/x/postgres@v0.14.0/mod.ts";
 
