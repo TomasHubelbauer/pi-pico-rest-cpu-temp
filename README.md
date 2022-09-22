@@ -151,18 +151,40 @@ with a semicolon. This allows easy authoring of multi-line commands. Use the
 
 ![](psql.png)
 
+## Setting up the function
+
+For the endpoint that I will want my Pi Pico W to send the data to, I will use
+a serverless function option from Deno. Deno provides a service called Deno
+Deploy which allows to easily host edge functions that can connect to Postgres
+with help of additional modules.
+
+Deno Deploy operates based on a GitHub repository from which it pulls the file
+to use as the code for the function. Functions are authored in TypeScript. I
+will call mine [`function.ts`](function.ts) and place it alongside this readme.
+
+Again, I will call the Deno project by the name of this repository. Deno uses
+GitHub to connect and it is best to install it in a way where it only has access
+to the desired repository:
+
+- [ ] Add the repository selection GitHub image here
+- [ ] Add the repository selection Deno image here
+- [ ] Talk about the Automatic mode (installs hooks over a GitHub Actions flow)
+
 ## Recap & To-Do
 
 So far in this guide I've covered:
 
 - [x] Flash the Pi Pico with the MicroPython firmware
 - [x] Test out the MicroPython firmare and learn to use Thonny
+- [x] Set up a Supabase database for storing the readings
+
+This is currently in the works:
+
+- [ ] Set up a Deno function for persisting the readings
 
 In order to finalize the implementation of the stated purpose at the top of the
 readme, this is what's left to do:
 
-- [ ] Set up a Supabase database for storing the readings
-- [ ] Set up a Deno function for persisting the readings
 - [ ] Make the POST call with a JSON payload
 - [ ] Run the program on in a loop to collect readings over time
 - [ ] Measure power draw over a period of time for comparison
