@@ -3,6 +3,8 @@
 In this repository, I develop a MicroPython program implementing a Pi Pico CPU
 temperature probe that regularly sends the collected readings to a REST service.
 
+![](raspberry-pi-pico-w.jpg)
+
 The plan is to:
 
 - Flash the Pi Pico with the MicroPython firmware
