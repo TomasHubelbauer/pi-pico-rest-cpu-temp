@@ -104,7 +104,17 @@ to the backing Postgres database. In Supabase, go to project settings, Database
 and find the Host value. That goes to the Host field of the Postico connection.
 User is `postgres` and the password is the one chosen while setting up the DB.
 
-- [ ] Add the pictures here
+![](postico-connection.png)
+
+On the initial connection, Postico will ask you whether you trust the host
+certificate:
+
+![](postico-identity.png)
+
+Afterwards, the SQL window in Postico can be used to query the database:
+
+![](postico-query.png)
+
 - [ ] Talk about the Postgres app for macOS and how to use `psql` here
 
 ## Recap & To-Do
