@@ -1,7 +1,8 @@
 # Pi Pico REST CPU Temperature
 
-In this repository, I develop a MicroPython program implementing a Pi Pico CPU
-temperature probe that regularly sends the collected readings to a REST service.
+This repository contains a MicroPython program implementing a Pi Pico CPU
+temperature probe that regularly sends the collected readings to a REST service
+running on Deno and persisting the data in Postgres on Supabase.
 
 ![](pi-pico-w.png)
 
@@ -415,6 +416,8 @@ Nothing is currently in the queue/in the works.
 In order to finalize the implementation of the stated purpose at the top of the
 readme, this is what's left to do:
 
+- [ ] Dim the LED while the request is being sent off for visual indication
+- [ ] Read the secrets off a file instead from the source code
 - [ ] Measure power draw over a period of time for comparison
 - [ ] Implement wi-fi sleep mode for power saving
 - [ ] Compare power draw with the sleep mode on
