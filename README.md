@@ -381,16 +381,19 @@ while True:
     data = ujson.dumps({ "temperature": pico_temp_sensor.temp, "secret": secret })
     print(data)
 
+    pico_led.off()
     response = requests.post('https://pi-pico-rest-cpu-temp.deno.dev', headers = headers, data = data)
     print(response.text)
+    pico_led.on()
     
     sleep(10)
 ```
 
 I added the `pico_led.on()` after the previous loop so that the Pi LED lights up
 even if the wi-fi chip is already connected (when debugging in Thonny with he
-board connected all the time).
-
+board connected all the time). Also I dim the LED while the request is in
+progress and light it back up after so that the Pi Pico operation can be checked
+visually.
 
 ## Running on power only
 
@@ -410,13 +413,13 @@ So far in this guide I've covered:
 - [x] Set up a Deno function for persisting the readings
 - [x] Make the POST call with a JSON payload
 - [x] Run the program on in a loop to collect readings over time
+- [x] Dim the LED while the request is being sent off for visual indication
 
 Nothing is currently in the queue/in the works.
 
 In order to finalize the implementation of the stated purpose at the top of the
 readme, this is what's left to do:
 
-- [ ] Dim the LED while the request is being sent off for visual indication
 - [ ] Read the secrets off a file instead from the source code
 - [ ] Measure power draw over a period of time for comparison
 - [ ] Implement wi-fi sleep mode for power saving
