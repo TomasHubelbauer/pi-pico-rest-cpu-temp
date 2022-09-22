@@ -11,9 +11,9 @@ const pool = new postgres.Pool(connectionString, 1, true);
 serve(async request => {
   const connection = await pool.connect();
   try {
-    const data = await connection.queryObject`SELECT * FROM temperature`;
+    const data = await connection.queryObject`SELECT COUNT(*) FROM temperature`;
     console.log(data);
-    return new Response("Success: " + JSON.stringify(data.rows), {
+    return new Response("Success: " + data.rowCount + " rows", {
       headers: { "content-type": "text/plain" },
     });
   }
