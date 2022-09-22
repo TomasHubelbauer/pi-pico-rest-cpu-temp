@@ -11,7 +11,7 @@ const SECRET = Deno.env.get("SECRET")!;
 const client = new postgres.Client(CONNECTION_STRING);
 
 serve(async request => {
-  const connection = await client.connect();
+  await client.connect();
   try {
     // Parse out the temperature value and the secret to authorize the caller
     const { secret, temperature } = await request.json();
@@ -23,7 +23,7 @@ serve(async request => {
       throw new Error('Invalid temperature!');
     }
 
-    const data = await connection.queryObject`INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, ${new Date()})`;
+    const data = await client.queryObject`INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, ${new Date()})`;
     console.log(data);
     
     return new Response("Success: " + data.rowCount + " rows", {
@@ -36,6 +36,6 @@ serve(async request => {
     });
   }
   finally {
-    connection.release();
+    await client.end();
   }
 });
