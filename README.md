@@ -166,9 +166,21 @@ Again, I will call the Deno project by the name of this repository. Deno uses
 GitHub to connect and it is best to install it in a way where it only has access
 to the desired repository:
 
-- [ ] Add the repository selection GitHub image here
-- [ ] Add the repository selection Deno image here
-- [ ] Talk about the Automatic mode (installs hooks over a GitHub Actions flow)
+![](github-repository.png)
+
+In Deno, only that repository will then be available:
+
+![](deno-repository.png)
+
+We also want to make use of the Automatic mode which installs a webhook to watch
+for pushes to the repository and redeploys the function after each one.
+
+The GitHub Action mode is much more flexible in terms of allowing for a build
+step, but we don't need that here.
+
+![](deno-mode.png)
+
+- [ ] Talk about the function code
 
 ## Recap & To-Do
 
