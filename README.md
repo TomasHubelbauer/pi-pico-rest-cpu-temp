@@ -329,16 +329,44 @@ curl -H "Content-Type: application/json" -d '{"temperature":…,"secret":…}' h
 
 In order to make this call from Python, the `urequests` PiPy module can be used.
 Use Thonny to install it and also install `ujson` for constructing the payload.
+Thonny will warn that those libraries do not look like MicroPython libraries,
+but they do work.
 
 This documentation page show how that might look like:
 https://makeblock-micropython-api.readthedocs.io/en/latest/public_library/Third-party-libraries/urequests.html#sample-code-3
 
 ```python
+import network
+import socket
+from time import sleep
+from picozero import pico_temp_sensor, pico_led
+import machine
+import urequests as requests
+import ujson
+
+ssid = 'ssid'
+password = 'password'
+secret = 'secret'
+
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect(ssid, password)
+while wlan.isconnected() == False:
+    print('Waiting for connection...')
+    pico_led.off()
+    sleep(1)
+    pico_led.on()
+
 headers = { 'content-type': 'application/json' }
-data = ujson.dumps({ "temperature": 0, "secret": "TODO" })
-response = requests.post('https://pi-pico-rest-cpu-temp.deno.dev', headers, data)
+data = ujson.dumps({ "temperature": pico_temp_sensor.temp, "secret": secret })
+print(data)
+
+response = requests.post('https://pi-pico-rest-cpu-temp.deno.dev', headers = headers, data = data)
 print(response.text)
 ```
+
+And indeed trying that out on the Pico using Thonny, it works and the number
+makes it way all the way through to Supabase!
 
 ## Recap & To-Do
 
@@ -347,16 +375,16 @@ So far in this guide I've covered:
 - [x] Flash the Pi Pico with the MicroPython firmware
 - [x] Test out the MicroPython firmare and learn to use Thonny
 - [x] Set up a Supabase database for storing the readings
-- [ ] Set up a Deno function for persisting the readings
+- [x] Set up a Deno function for persisting the readings
+- [x] Make the POST call with a JSON payload
 
 This is currently in the queue/in the works:
 
-- [ ] Make the POST call with a JSON payload
+- [ ] Run the program on in a loop to collect readings over time
 
 In order to finalize the implementation of the stated purpose at the top of the
 readme, this is what's left to do:
 
-- [ ] Run the program on in a loop to collect readings over time
 - [ ] Measure power draw over a period of time for comparison
 - [ ] Implement wi-fi sleep mode for power saving
 - [ ] Compare power draw with the sleep mode on
