@@ -5,8 +5,9 @@ const CONNECTION_STRING = Deno.env.get("CONNECTION_STRING")!;
 const SECRET = Deno.env.get("SECRET")!;
 
 serve(async request => {
+  const client = new postgres.Client(CONNECTION_STRING);
+  
   try {
-    const client = new postgres.Client(CONNECTION_STRING);
     await client.connect();
     
     const { secret, temperature } = await request.json();
