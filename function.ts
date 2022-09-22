@@ -23,14 +23,10 @@ serve(async request => {
     const data = await client.queryObject`INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, ${new Date()})`;
     console.log(data);
     
-    return new Response("Success: " + data.rowCount, {
-      headers: { "content-type": "text/plain" },
-    });
+    return new Response("Success: " + data.rowCount);
   }
   catch (error) {
-    return new Response("Error: " + error.message, {
-      headers: { "content-type": "text/plain" },
-    });
+    return new Response("Error: " + error.message ?? error);
   }
   finally {
     await client.end();
