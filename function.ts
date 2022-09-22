@@ -7,12 +7,11 @@ const CONNECTION_STRING = Deno.env.get("CONNECTION_STRING")!;
 // Pull the authorization secret from the Deno environment variables
 const SECRET = Deno.env.get("SECRET")!;
 
-// Set up a connection pool with a single lazy connection
-// TODO: Convert this to use a `Client` if it can be made as brief as a pool
-const pool = new postgres.Pool(CONNECTION_STRING, 1, true);
+// Set up a connection client
+const client = new postgres.Client(CONNECTION_STRING);
 
 serve(async request => {
-  const connection = await pool.connect();
+  const connection = await client.connect();
   try {
     // Parse out the temperature value and the secret to authorize the caller
     const { secret, temperature } = await request.json();
