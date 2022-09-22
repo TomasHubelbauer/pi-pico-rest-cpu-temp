@@ -185,7 +185,22 @@ it lives on this URL:
 
 https://pi-pico-rest-cpu-temp.deno.dev
 
-- [ ] Write code for handling a request with some sort of an echo / hello world
+The most basic hello world function looks like this:
+
+```typescript
+import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
+
+serve((_req) => {
+  return new Response("Hello World!", {
+    headers: { "content-type": "text/plain" },
+  });
+});
+```
+
+We'll want it to talk to Postgres so we need to bring that in as a module. Lucky
+for us that's something that the Deno docs cover:
+https://deno.com/deploy/docs/tutorial-postgres
+
 - [ ] Extend the code to connect to Postgres using an environment variable
 - [ ] Parse out a temperature value from the payload and save it to the DB
 
