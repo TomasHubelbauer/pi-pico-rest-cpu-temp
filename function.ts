@@ -20,7 +20,12 @@ serve(async request => {
       throw new Error('Invalid secret!');
     }
     
-    const data = await connection.queryObject`INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, '${new Date().toISOString()}')`;
+    if (isNaN(Number(temperature))) {
+      throw new Error('Invalid temperature!');
+    }
+    
+    const stamp = new Date().toISOString().replace('T', ' ');
+    const data = await connection.queryObject`INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, '${stamp}')`;
     console.log(data);
     
     return new Response("Success: " + data.rowCount + " rows", {
