@@ -207,18 +207,61 @@ is a more compact way to containing the connection instructions. You can find it
 on Supabase, in the project settings, Database tab under the section Connection
 String. It's best to switch to the URI tab there.
 
-- [ ] Upload the connection string image here
+![](supabase-connection-string.png)
 
 Substitute the database password there and store that final connection string in
 Deno environment variables, something like this:
 
-- [ ] Upload the environment variables image here
+![](deno-environment-variables.png)
 
 With this done, the code can access the connection string and we can connect to
 Postgres and use the database data as a part of the request-response flow.
 
-- [ ] Extend the code to connect to Postgres using an environment variable
+```
+import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
+import * as postgres from "https://deno.land/x/postgres@v0.14.0/mod.ts";
+
+// Pull the database connection string from the Deno environment variables
+const connectionString = Deno.env.get("CONNECTION_STRING")!;
+
+// Set up a connection pool with a single lazy connection
+const pool = new postgres.Pool(connectionString, 1, true);
+
+serve(async request => {
+  const connection = await pool.connect();
+  try {
+    const data = await connection.queryObject`SELECT * FROM temperature`;
+    console.log(data);
+    return new Response("Success: " + data.rowCount + " rows", {
+      headers: { "content-type": "text/plain" },
+    });
+  }
+  catch (error) {
+    return new Response("Error: " + error.message, {
+      headers: { "content-type": "text/plain" },
+    });
+  }
+  finally {
+    connection.release();
+  }
+});
+```
+
+This code allows the caller to connect, retrieves all available rows and returns
+the number of rows in the database.
+
+We want to call this endpoint using the POST method with a JSON payload, so from
+now on we need more to test it than mere URL access in the browser.
+
+To call this function using POST with JSON, let's reach for cURL in shell:
+
+```bash
+# Note that `-H` is for `--header` and `-d` for `--data` and it impliest POST
+curl -H "Content-Type: application/json" -d '{"temperature":0}' https://pi-pico-rest-cpu-temp.deno.dev
+```
+
 - [ ] Parse out a temperature value from the payload and save it to the DB
+- [ ] Use `Client` instead of `Pool` if it also accepts a connection string
 
 ## Recap & To-Do
 
