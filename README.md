@@ -197,6 +197,8 @@ serve((_req) => {
 });
 ```
 
+To call it, access the URL above and see the response in the browser.
+
 We'll want it to talk to Postgres so we need to bring that in as a module. Lucky
 for us that's something that the Deno docs cover:
 https://deno.com/deploy/docs/tutorial-postgres
@@ -250,6 +252,8 @@ serve(async request => {
 This code allows the caller to connect, retrieves all available rows and returns
 the number of rows in the database.
 
+## Testing out the function
+
 We want to call this endpoint using the POST method with a JSON payload, so from
 now on we need more to test it than mere URL access in the browser.
 
@@ -259,6 +263,8 @@ To call this function using POST with JSON, let's reach for cURL in shell:
 # Note that `-H` is for `--header` and `-d` for `--data` and it impliest POST
 curl -H "Content-Type: application/json" -d '{"temperature":0}' https://pi-pico-rest-cpu-temp.deno.dev
 ```
+
+## Persisting the values
 
 - [ ] Parse out a temperature value from the payload and save it to the DB
 - [ ] Use `Client` instead of `Pool` if it also accepts a connection string
