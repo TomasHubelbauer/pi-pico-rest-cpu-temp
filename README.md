@@ -104,6 +104,8 @@ to the backing Postgres database. In Supabase, go to project settings, Database
 and find the Host value. That goes to the Host field of the Postico connection.
 User is `postgres` and the password is the one chosen while setting up the DB.
 
+https://eggerapps.at/postico
+
 ![](postico-connection.png)
 
 On the initial connection, Postico will ask you whether you trust the host
@@ -115,7 +117,39 @@ Afterwards, the SQL window in Postico can be used to query the database:
 
 ![](postico-query.png)
 
-- [ ] Talk about the Postgres app for macOS and how to use `psql` here
+Another way of talking to the database is to use the `psql` CLI tool. It comes
+with Postgres itself. My favorite way of installing Postgres or just its bundled
+utilities (like `psql`) on macOS is the Postgres app: https://postgresapp.com.
+
+You don't have to install Postgres locally just to use `psql`. Install the
+Postgres app, but do not set up a database. Instead, find the path to the `psql`
+utility in the Postgres app bundle. Something like this:
+
+`/Applications/Postgres.app/Contents/Versions/14/bin/psql`
+
+You can add it to your shell's path to be able to invoke it using only `psql`. I
+don't like to do it but for brevity I will refer to it just by the file name for
+the rest of this document.
+
+To connect to a Supabase database, a command like this can be issued:
+
+```sh
+psql -h db.ztzncjrlmcejsrqdubfq.supabase.co -p 5432 -d postgres -U postgres
+```
+
+`db.ztzncjrlmcejsrqdubfq.supabase.co` is the Host value in project settings in
+Supabase, in the Database section. `-d` and `-U` are database and user names.
+
+ - [ ] Eliminate the options here which are defaults and can be omitted
+
+`psql` is an interactive utility. Run it and you'll be presented with a prompt
+for a password. To provide a password on the CLI, set the `PGPASSWORD` env var.
+
+Once in `psql`, SQL commands may be entered. They will execute once terminated
+with a semicolon. This allows easy authoring of multi-line commands. Use the
+`exit` command to leave the utility.
+
+- [ ] Add the `psql` running in Terminal screenshot here
 
 ## Recap & To-Do
 
