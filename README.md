@@ -149,7 +149,7 @@ Once in `psql`, SQL commands may be entered. They will execute once terminated
 with a semicolon. This allows easy authoring of multi-line commands. Use the
 `exit` command to leave the utility.
 
-- [ ] Add the `psql` running in Terminal screenshot here
+![](psql.png)
 
 ## Recap & To-Do
 
