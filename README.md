@@ -294,14 +294,10 @@ serve(async request => {
     const data = await client.queryObject`INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, ${new Date()})`;
     console.log(data);
     
-    return new Response("Success: " + data.rowCount, {
-      headers: { "content-type": "text/plain" },
-    });
+    return new Response("Success: " + data.rowCount);
   }
   catch (error) {
-    return new Response("Error: " + error.message, {
-      headers: { "content-type": "text/plain" },
-    });
+    return new Response("Error: " + error.message ?? error);
   }
   finally {
     await client.end();
@@ -320,8 +316,29 @@ called in parallel so it is more than sufficient.
 
 Supabase is getting filled with data okay so this is good to go!
 
-- [ ] Check whether the `Content-Type` bit can be removed
-- [ ] Add an image of the Supabase database showing the new data
+![](supabase-data.png)
+
+## Constructing the call
+
+Back in the board, in MicroPython, we need to craft the same request we have
+been sending to the Deno edge function using cURL until now.
+
+```bash
+curl -H "Content-Type: application/json" -d '{"temperature":…,"secret":…}' https://pi-pico-rest-cpu-temp.deno.dev
+```
+
+In order to make this call from Python, the `urequests` PiPy module can be used.
+Use Thonny to install it and also install `ujson` for constructing the payload.
+
+This documentation page show how that might look like:
+https://makeblock-micropython-api.readthedocs.io/en/latest/public_library/Third-party-libraries/urequests.html#sample-code-3
+
+```python
+headers = { 'content-type': 'application/json' }
+data = ujson.dumps({ "temperature": 0, "secret": "TODO" })
+response = requests.post('https://pi-pico-rest-cpu-temp.deno.dev', headers, data)
+print(response.text)
+```
 
 ## Recap & To-Do
 
@@ -330,15 +347,15 @@ So far in this guide I've covered:
 - [x] Flash the Pi Pico with the MicroPython firmware
 - [x] Test out the MicroPython firmare and learn to use Thonny
 - [x] Set up a Supabase database for storing the readings
-
-This is currently in the works:
-
 - [ ] Set up a Deno function for persisting the readings
+
+This is currently in the queue/in the works:
+
+- [ ] Make the POST call with a JSON payload
 
 In order to finalize the implementation of the stated purpose at the top of the
 readme, this is what's left to do:
 
-- [ ] Make the POST call with a JSON payload
 - [ ] Run the program on in a loop to collect readings over time
 - [ ] Measure power draw over a period of time for comparison
 - [ ] Implement wi-fi sleep mode for power saving
