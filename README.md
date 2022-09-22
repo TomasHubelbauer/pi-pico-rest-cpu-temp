@@ -403,6 +403,14 @@ it to the board and name it `main.py`:
 
 ![](thonny-save.png)
 
+## Charting the data
+
+I am using a really cool app called Charts: For Supabase to plot the data:
+
+https://apps.apple.com/us/app/charts-for-supabase/id1612680145
+
+![](charts.png)
+
 ## Recap & To-Do
 
 So far in this guide I've covered:
@@ -414,12 +422,14 @@ So far in this guide I've covered:
 - [x] Make the POST call with a JSON payload
 - [x] Run the program on in a loop to collect readings over time
 - [x] Dim the LED while the request is being sent off for visual indication
+- [x] Visualize the data using the Charts: For Supabase app
 
 Nothing is currently in the queue/in the works.
 
 In order to finalize the implementation of the stated purpose at the top of the
 readme, this is what's left to do:
 
+- [ ] Show how to configure the Charts: For Supbase app
 - [ ] Read the secrets off a file instead from the source code
 - [ ] Measure power draw over a period of time for comparison
 - [ ] Implement wi-fi sleep mode for power saving
