@@ -24,8 +24,10 @@ serve(async request => {
       throw new Error('Invalid temperature!');
     }
     
-    const stamp = new Date().toISOString().replace('T', ' ');
-    const data = await connection.queryObject`INSERT INTO temperature(temperature, recorded_at) VALUES (${temperature}, '${stamp}')`;
+    const query = 'INSERT INTO temperature(temperature, recorded_at) VALUES ($1, $2)';
+    const stamp = new Date();
+    console.log({ query, $1: temperature, $2: stamp });
+    const data = await connection.query(query, [temperature, stamp]);
     console.log(data);
     
     return new Response("Success: " + data.rowCount + " rows", {
