@@ -368,6 +368,37 @@ print(response.text)
 And indeed trying that out on the Pico using Thonny, it works and the number
 makes it way all the way through to Supabase!
 
+## Collecting the recordings
+
+In order to loop it and send the reading every 10 seconds, we do this:
+
+```python
+pico_led.on()
+
+headers = { 'content-type': 'application/json' }
+while True:
+    data = ujson.dumps({ "temperature": pico_temp_sensor.temp, "secret": secret })
+    print(data)
+
+    response = requests.post('https://pi-pico-rest-cpu-temp.deno.dev', headers = headers, data = data)
+    print(response.text)
+    
+    sleep(10)
+```
+
+I added the `pico_led.on()` after the previous loop so that the Pi LED lights up
+even if the wi-fi chip is already connected (when debugging in Thonny with he
+board connected all the time).
+
+
+## Running on power only
+
+In order to make the board run the program when connected to power automatically
+without having to open up Thonny, save the program in Thonny and select to save
+it to the board and name it `main.py`:
+
+![](thonny-save.png)
+
 ## Recap & To-Do
 
 So far in this guide I've covered:
@@ -377,10 +408,9 @@ So far in this guide I've covered:
 - [x] Set up a Supabase database for storing the readings
 - [x] Set up a Deno function for persisting the readings
 - [x] Make the POST call with a JSON payload
+- [x] Run the program on in a loop to collect readings over time
 
-This is currently in the queue/in the works:
-
-- [ ] Run the program on in a loop to collect readings over time
+Nothing is currently in the queue/in the works.
 
 In order to finalize the implementation of the stated purpose at the top of the
 readme, this is what's left to do:
