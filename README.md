@@ -84,6 +84,29 @@ then it won't be on the Pico W once it restarts) or you can save it on the Pico
 W as a file named `main.py` to make the program start up whenever the Pi Pico W
 is powered up.
 
+## Setting up the database
+
+I am using Supabase to get a fully-fledged, hosted Postgres instance. On there,
+go to the dashboard and create a new project in your organization. I named it
+after this repo, `pi-pico-rest-cpu-temp`. Take note of the Supabase database
+password, it will be needed later when we set up the Deno function.
+
+In the project, go to the database editor and create a table to collect the
+data. I am keeping the default columns (`id`, `created_at`) and adding columns
+`recorded_at` (this will be very close temporally to `created_at` but not the
+same as it will take some time for the function to write to the database) and
+`temperature`. I have also made `created_at` non-nullable. The temperature is
+stored as a `float4` numeric type.
+
+With the database set up, it is time to test out connecting to it and writing
+some data to it by hand. I am using Postico as a GUI Postgres client to connect
+to the backing Postgres database. In Supabase, go to project settings, Database
+and find the Host value. That goes to the Host field of the Postico connection.
+User is `postgres` and the password is the one chosen while setting up the DB.
+
+- [ ] Add the pictures here
+- [ ] Talk about the Postgres app for macOS and how to use `psql` here
+
 ## Recap & To-Do
 
 So far in this guide I've covered:
