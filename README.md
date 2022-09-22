@@ -180,7 +180,14 @@ step, but we don't need that here.
 
 ![](deno-mode.png)
 
-- [ ] Talk about the function code
+I named the function `pi-pico-rest-cpu-temp` like all the other things and now
+it lives on this URL:
+
+https://pi-pico-rest-cpu-temp.deno.dev
+
+- [ ] Write code for handling a request with some sort of an echo / hello world
+- [ ] Extend the code to connect to Postgres using an environment variable
+- [ ] Parse out a temperature value from the payload and save it to the DB
 
 ## Recap & To-Do
 
