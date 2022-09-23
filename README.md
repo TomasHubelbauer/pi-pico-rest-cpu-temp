@@ -429,7 +429,7 @@ Nothing is currently in the queue/in the works.
 In order to finalize the implementation of the stated purpose at the top of the
 readme, this is what's left to do:
 
-- [ ] Show how to configure the Charts: For Supbase app
+- [ ] Show how to configure the Charts: For Supabase app
 - [ ] Read the secrets off a file instead from the source code
 - [ ] Measure power draw over a period of time for comparison
 - [ ] Implement wi-fi sleep mode for power saving
