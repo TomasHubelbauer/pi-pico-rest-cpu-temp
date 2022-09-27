@@ -436,3 +436,10 @@ readme, this is what's left to do:
 - [ ] Compare power draw with the sleep mode on
 - [ ] Implement wi-fi disconnect and reconnect as an alternative to wi-fi sleep
 - [ ] Compare power draw with the other two solutions
+- [ ] Look into using TMEP.cz over a custom solution
+
+  I came across this by happenstance, Z-TECH released this video that has to do
+  with custom temperature and humidity tracking:
+  https://www.youtube.com/watch?v=qh9V8oPX-iM
+  And in the video they mention this site.
+  It looks like it could be useful and simplify this solution a lot!
